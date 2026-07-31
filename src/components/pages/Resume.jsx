@@ -1,13 +1,11 @@
 import React from 'react';
 import { resumeData } from '../../data/resumeData';
-import { Printer, Mail, MapPin, Github, Globe, ExternalLink } from 'lucide-react';
+import { Printer, User, GraduationCap, Briefcase, Trophy, Cpu, Star, Code } from 'lucide-react';
 
 const Resume = () => {
   const { personalInfo, experience, education, skills, awards, projects, pdfResumeData } = resumeData;
 
-  // Destructure settings with defaults as fallback
   const {
-    theme = {},
     layout = {},
     content = {}
   } = pdfResumeData || {};
@@ -16,108 +14,98 @@ const Resume = () => {
     window.print();
   };
 
-  // Helper to filter and limit content
-  const getDisplayItems = (items, limit, show) => {
-    if (!show || !items) return [];
-    return limit ? items.slice(0, limit) : items;
-  };
+  const strengthsList = content.strengths || [
+    "Analytical",
+    "Innovative",
+    "Problem Solver",
+    "Detail-Oriented",
+    "Collaborative",
+    "Adaptable",
+    "Systems Thinker",
+    "Resourceful",
+    "Fast Learner",
+    "Creative",
+    "Methodical",
+    "Self-Motivated"
+  ];
 
-  const displayProjects = content.selectedProjectIds && content.showProjects
-    ? projects.filter(p => content.selectedProjectIds.includes(p.id))
-      .sort((a, b) => content.selectedProjectIds.indexOf(a.id) - content.selectedProjectIds.indexOf(b.id))
-    : getDisplayItems(projects, content.projectLimit, content.showProjects);
-  const displayAwards = content.selectedAwardIds && content.showAwards
-    ? awards.filter(a => content.selectedAwardIds.includes(a.id))
-      .sort((a, b) => content.selectedAwardIds.indexOf(a.id) - content.selectedAwardIds.indexOf(b.id))
-    : getDisplayItems(awards, content.awardLimit, content.showAwards);
-  const displayExperience = getDisplayItems(experience, content.experienceLimit, content.showExperience);
-  const displayEducation = content.selectedEducationIds && content.showEducation
-    ? education.filter(e => content.selectedEducationIds.includes(e.id))
-      .sort((a, b) => content.selectedEducationIds.indexOf(a.id) - content.selectedEducationIds.indexOf(b.id))
-    : getDisplayItems(education, null, content.showEducation);
-  const displaySkills = getDisplayItems(skills, null, content.showSkills);
+  // Divide experience into left and right columns for optimal 1-page US Letter layout
+  const expLeft = experience.slice(0, 2); // LA Metro & Freelance Game Dev
+  const expRight = experience.slice(2);   // AI Consultant & Volunteer
+
+  const displayProjects = projects.filter(p => [2, 13, 3].includes(p.id));
+  const displayAwards = awards.filter(a => [10, 9, 7, 5, 11].includes(a.id));
+
+  // Skills formatted for Kickresume progress bars
+  const programmingSkills = [
+    { name: "Python / AI & ML", level: 100 },
+    { name: "Generative AI & LLMs", level: 80 },
+    { name: "C++ / Physics", level: 90 },
+    { name: "Luau & Java Systems", level: 88 },
+    { name: "Web (React / JS / CSS)", level: 95 }
+  ];
+
+  const designToolsSkills = [
+    { name: "Graphic Design & Branding", level: 95 },
+    { name: "UI/UX & Digital Media", level: 90 },
+    { name: "Data Science & R Analytics", level: 85 },
+    { name: "Git & Cybersecurity (Linux)", level: 88 }
+  ];
 
   return (
     <div className="resume-container">
       <div className="resume-controls no-print">
         <button onClick={handlePrint} className="btn btn-primary">
           <Printer size={18} />
-          Print to PDF
+          Print 1-Page PDF (US Letter)
         </button>
         <div className="print-hint-box">
-          <p className="print-hint"><strong>Print Tip:</strong> Set "Background Graphics" to <strong>ON</strong> and "Margins" to <strong>None</strong> in your browser's print settings.</p>
-
+          <p className="print-hint"><strong>Print Setting:</strong> Paper Size: <strong>US Letter</strong> | Margins: <strong>None</strong> | Background Graphics: <strong>ON</strong></p>
         </div>
       </div>
 
       <div className="resume-paper">
-        {/* Header */}
-        <header className="resume-header">
-          <div className="header-main">
-            <h1>Krish Sathyan</h1>
-            <h2 className="resume-subtitle">{personalInfo.title}</h2>
-            <div className="header-contact-inline">
-              <div className="contact-item-inline">
-                <Mail size={12} />
-                <span>{personalInfo.email}</span>
-              </div>
-              <span className="dot-separator">•</span>
-              <div className="contact-item-inline">
-                <MapPin size={12} />
-                <span>{personalInfo.location}</span>
-              </div>
-              <span className="dot-separator">•</span>
-              <div className="contact-item-inline">
-                <Github size={12} />
-                <span>{personalInfo.socials.github}</span>
-              </div>
-            </div>
-          </div>
-        </header>
+        {/* Kickresume Header Banner - Deep Slate Blue with Electric Blue Accents */}
+        <div className="kr-header-banner">
+          <div className="kr-header-decor-left"></div>
+          <h1>Krish Sathyan</h1>
+          <div className="kr-header-decor-right"></div>
+        </div>
 
-        <div className="resume-content">
-          {/* Summary & Key Highlights */}
-          {content.showSummary && (
-            <section className="resume-section profile-section">
-              <h3 className="section-title-resume">Professional Profile</h3>
-              <p className="summary-text" style={{ marginBottom: (content.showHighlights && content.summaryHighlights) ? '1rem' : '0' }}>
-                {personalInfo.summary}
-              </p>
-              {content.showHighlights && content.summaryHighlights && (
-                <ul className="item-list highlights-list">
-                  {content.summaryHighlights.slice(0, 4).map((highlight, i) => (
-                    <li key={i}>{highlight}</li>
-                  ))}
-                </ul>
-              )}
+        {/* Contact Info Sub-Bar */}
+        <div className="kr-contact-bar">
+          <span>{personalInfo.email}</span>
+          <span className="kr-bar-sep">|</span>
+          <span>{personalInfo.location}</span>
+          <span className="kr-bar-sep">|</span>
+          <span>{personalInfo.socials.github}</span>
+        </div>
+
+        {/* 2-Column Resume Content Grid */}
+        <div className="kr-grid">
+          {/* Left Column */}
+          <div className="kr-col">
+            {/* Profile Section */}
+            <section className="kr-section">
+              <h3 className="kr-section-title">
+                <User size={15} className="kr-title-icon" /> Profile
+              </h3>
+              <p className="kr-text">{personalInfo.summary}</p>
             </section>
-          )}
 
-          {/* Full-width Technical Expertise (Moved from sidebar) */}
-          {content.showSkills && displaySkills.length > 0 && (
-            <section className="resume-section expertise-section">
-              <h3 className="section-title-resume">Technical Expertise</h3>
-              <div className="skills-inline-list">
-                {displaySkills.map((skill, i) => (
-                  <span key={i} className="skill-pill-resume">
-                    {skill.name} {i < displaySkills.length - 1 ? ' • ' : ''}
-                  </span>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Full-width Top Experience (Moved from main col) */}
-          {content.showExperience && displayExperience.length > 0 && (
-            <section className="resume-section snapshot-section">
-              <h3 className="section-title-resume">Career Snapshot</h3>
-              {displayExperience.slice(0, 2).map((exp) => (
-                <div key={exp.id} className="experience-item-full">
-                  <div className="item-header">
-                    <h4 className="item-title">{exp.role} @ {exp.company}</h4>
-                    <span className="item-date">{exp.period}</span>
+            {/* Work Experience Section (Left Column) */}
+            <section className="kr-section">
+              <h3 className="kr-section-title">
+                <Briefcase size={15} className="kr-title-icon" /> Work Experience
+              </h3>
+              {expLeft.map((exp) => (
+                <div key={exp.id} className="kr-item">
+                  <div className="kr-item-date">
+                    📅 {exp.period} 📍 Los Angeles, CA
                   </div>
-                  <ul className="item-list">
+                  <h4 className="kr-item-title">{exp.role}</h4>
+                  <div className="kr-item-sub">{exp.company}</div>
+                  <ul className="kr-bullet-list">
                     {exp.description.map((desc, i) => (
                       <li key={i}>{desc}</li>
                     ))}
@@ -125,93 +113,131 @@ const Resume = () => {
                 </div>
               ))}
             </section>
-          )}
 
-          <div className="resume-grid">
-            <div className="resume-main-col">
-              {/* Projects (Full Main Col) */}
-              {content.showProjects && displayProjects.length > 0 && (
-                <section className={`resume-section ${content.pageBreakBefore?.projects ? 'force-page-break' : ''}`}>
-                  <h3 className="section-title-resume">Key Projects</h3>
-                  {displayProjects.map((project) => (
-                    <div key={project.id} className="project-item">
-                      <div className="item-header">
-                        <h4 className="item-title">{project.title}</h4>
-                        {project.year && <span className="item-date">{project.year}</span>}
-                      </div>
-                      <p className="project-desc-mini">{project.description}</p>
-                      <div className="tech-tags">
-                        {project.tech.map((t, i) => (
-                          <span key={i} className="tech-tag">{t}</span>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </section>
-              )}
+            {/* Education & Certifications Section */}
+            <section className="kr-section">
+              <h3 className="kr-section-title">
+                <GraduationCap size={15} className="kr-title-icon" /> Education & Certifications
+              </h3>
+              {education.map((edu) => (
+                <div key={edu.id} className="kr-item">
+                  <div className="kr-item-header">
+                    <h4 className="kr-item-title">{edu.degree || edu.school}</h4>
+                    <span className="kr-item-date-inline">{edu.year}</span>
+                  </div>
+                  <div className="kr-item-sub">{edu.school}</div>
+                  {edu.description && (
+                    <p className="kr-item-desc">{edu.description}</p>
+                  )}
+                </div>
+              ))}
+            </section>
+          </div>
 
-              {/* Remaining Experience (if any) */}
-              {content.showExperience && displayExperience.length > 2 && (
-                <section className="resume-section" style={{ marginTop: '-0.5rem' }}>
-                  <h3 className="section-title-resume">Additional</h3>
-                  {displayExperience.slice(2).map((exp) => (
-                    <div key={exp.id} className="education-item-ultra-compact">
-                      <span className="item-title-small">{exp.role}</span>
-                      <span className="dot-separator-small"> • </span>
-                      <span className="item-date-small">{exp.period}</span>
+          {/* Right Column */}
+          <div className="kr-col">
+            {/* Additional Work Experience */}
+            {expRight.length > 0 && (
+              <section className="kr-section">
+                <h3 className="kr-section-title">
+                  <Briefcase size={15} className="kr-title-icon" /> Additional Experience
+                </h3>
+                {expRight.map((exp) => (
+                  <div key={exp.id} className="kr-item">
+                    <div className="kr-item-date">
+                      📅 {exp.period}
                     </div>
-                  ))}
-                </section>
-              )}
-            </div>
+                    <h4 className="kr-item-title">{exp.role}</h4>
+                    <div className="kr-item-sub">{exp.company}</div>
+                    <ul className="kr-bullet-list">
+                      {exp.description.map((desc, i) => (
+                        <li key={i}>{desc}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </section>
+            )}
 
-            <div className="resume-side-col">
-              {/* Education */}
-              {content.showEducation && displayEducation.length > 0 && (
-                <section className={`resume-section ${content.pageBreakBefore?.education ? 'force-page-break' : ''}`}>
-                  <h3 className="section-title-resume">Education</h3>
-                  {displayEducation.map((edu) => (
-                    <div key={edu.id} className="education-item-ultra-compact">
-                      <span className="item-title-small">{edu.degree || edu.school}</span>
-                      <span className="dot-separator-small"> • </span>
-                      <span className="item-date-small">{edu.year}</span>
-                      {edu.gpa && (
-                        <>
-                          <span className="dot-separator-small"> • </span>
-                          <span className="item-gpa-small">GPA: {edu.gpa}</span>
-                        </>
-                      )}
-                      {edu.degree && <div className="item-sub-small-inline">{edu.school}</div>}
-                    </div>
-                  ))}
-                </section>
-              )}
+            {/* Key Technical Projects */}
+            <section className="kr-section">
+              <h3 className="kr-section-title">
+                <Code size={15} className="kr-title-icon" /> Key Projects
+              </h3>
+              {displayProjects.map((proj) => (
+                <div key={proj.id} className="kr-item">
+                  <h4 className="kr-item-title">{proj.title}</h4>
+                  <p className="kr-item-desc">{proj.description}</p>
+                  <div className="kr-tech-pills">
+                    {proj.tech.map((t, i) => (
+                      <span key={i} className="kr-tech-pill">{t}</span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </section>
 
-              {/* Awards */}
-              {content.showAwards && displayAwards.length > 0 && (
-                <section className={`resume-section ${content.pageBreakBefore?.awards ? 'force-page-break' : ''}`}>
-                  <h3 className="section-title-resume">Awards & Honors</h3>
-                  {displayAwards.map((award) => (
-                    <div key={award.id} className="award-item-resume">
-                      <h4 className="item-title-small">{award.title}</h4>
-                      <div className="item-date-small">{award.year}</div>
+            {/* Awards & Honors */}
+            <section className="kr-section">
+              <h3 className="kr-section-title">
+                <Trophy size={15} className="kr-title-icon" /> Awards & Honors
+              </h3>
+              {displayAwards.slice(0, 4).map((award) => (
+                <div key={award.id} className="kr-award-item-compact">
+                  <span className="kr-item-title">"{award.title}"</span>
+                  <span className="kr-item-date-inline">{award.year}</span>
+                </div>
+              ))}
+            </section>
+
+            {/* Skills & Proficiency (Blue Progress Bars) */}
+            <section className="kr-section">
+              <h3 className="kr-section-title">
+                <Cpu size={15} className="kr-title-icon" /> Technical Skills
+              </h3>
+              <div className="kr-skill-cat-title">COMPUTER & SYSTEMS SKILLS</div>
+              <div className="kr-skills-list">
+                {programmingSkills.map((sk, i) => (
+                  <div key={i} className="kr-skill-row">
+                    <span className="kr-skill-name">{sk.name}</span>
+                    <div className="kr-skill-bar-bg">
+                      <div className="kr-skill-bar-fill" style={{ width: `${sk.level}%` }}></div>
                     </div>
-                  ))}
-                </section>
-              )}
-            </div>
+                  </div>
+                ))}
+              </div>
+              <div className="kr-skill-cat-title" style={{ marginTop: '0.35rem' }}>DESIGN & DATA SKILLS</div>
+              <div className="kr-skills-list">
+                {designToolsSkills.map((sk, i) => (
+                  <div key={i} className="kr-skill-row">
+                    <span className="kr-skill-name">{sk.name}</span>
+                    <div className="kr-skill-bar-bg">
+                      <div className="kr-skill-bar-fill" style={{ width: `${sk.level}%` }}></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Strengths Section (Vibrant Blue Badges) */}
+            <section className="kr-section">
+              <h3 className="kr-section-title">
+                <Star size={15} className="kr-title-icon" /> Key Strengths
+              </h3>
+              <div className="kr-strengths-grid">
+                {strengthsList.map((st, i) => (
+                  <span key={i} className="kr-strength-badge">{st}</span>
+                ))}
+              </div>
+            </section>
           </div>
         </div>
-
-        <footer className="resume-footer">
-          <p>😊</p>
-        </footer>
       </div>
 
       <style>{`
         .resume-container {
-          padding-top: 2rem;
-          padding-bottom: 5rem;
+          padding-top: 1.5rem;
+          padding-bottom: 3rem;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -219,17 +245,17 @@ const Resume = () => {
         }
 
         .resume-controls {
-          margin-bottom: 2rem;
+          margin-bottom: 1.5rem;
           text-align: center;
           width: 100%;
           max-width: 800px;
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 1.5rem;
+          gap: 1rem;
           background: rgba(30, 41, 59, 0.5);
-          padding: 2rem;
-          border-radius: 16px;
+          padding: 1.2rem;
+          border-radius: 12px;
           border: 1px solid rgba(255, 255, 255, 0.1);
           backdrop-filter: blur(10px);
         }
@@ -237,301 +263,272 @@ const Resume = () => {
         .print-hint-box {
           display: flex;
           flex-direction: column;
-          gap: 0.5rem;
-        }
-
-        .print-hint {
-          font-size: 0.95rem;
-          color: var(--text-primary);
-        }
-        
-        .print-hint-sub {
-          font-size: 0.8rem;
-          color: var(--text-secondary);
-        }
-
-        .resume-paper {
-          width: ${layout.paperSize === 'A4' ? '210mm' : '8.5in'};
-          min-height: ${layout.paperSize === 'A4' ? '297mm' : '11in'};
-          background: ${theme.backgroundColor || '#ffffff'};
-          color: ${theme.primaryTextColor || '#0f172a'};
-          padding: ${layout.margins || '10mm'};
-          box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-          position: relative;
-          font-size: ${layout.fontSize || '8.5pt'};
-          line-height: 1.25;
-        }
-
-        /* Resume Header */
-        .resume-header {
-          border-bottom: 2pt solid ${theme.accentColor || '#38bdf8'};
-          padding-bottom: 0.4rem;
-          margin-bottom: 0.5rem;
-          text-align: center;
-          display: block;
-        }
-
-        .resume-header h1 {
-          font-family: 'Space Grotesk', sans-serif;
-          font-size: ${layout.headerFontSize || '22pt'};
-          font-weight: 700;
-          color: ${theme.primaryTextColor || '#0f172a'};
-          margin: 0;
-          letter-spacing: -0.02em;
-        }
-
-        .resume-subtitle {
-          font-size: 10pt;
-          color: ${theme.accentColor || '#38bdf8'};
-          font-weight: 600;
-          margin-bottom: 0.3rem;
-        }
-
-        .header-contact-inline {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          gap: 0.5rem;
-          font-size: 8.5pt;
-          color: ${theme.lightTextColor || '#64748b'};
-        }
-
-        .contact-item-inline {
-          display: flex;
-          align-items: center;
           gap: 0.3rem;
         }
 
-        .dot-separator {
-          opacity: 0.5;
+        .print-hint {
+          font-size: 0.9rem;
+          color: var(--text-primary);
         }
 
-        /* Section and Item Protection */
-        .resume-section {
-          margin-bottom: 0.8rem;
-          page-break-inside: avoid;
-          break-inside: avoid;
+        /* US Letter 8.5in x 11in 1-Page Layout Container */
+        .resume-paper {
+          width: 8.5in;
+          height: 11in;
+          max-height: 11in;
+          background: #ffffff;
+          color: #0f172a;
+          padding: 0.3in 0.35in;
+          box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+          position: relative;
+          font-size: 8pt;
+          line-height: 1.28;
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          box-sizing: border-box;
+          overflow: hidden;
         }
 
-        .profile-section {
-          margin-bottom: 0.6rem;
-        }
-
-        .expertise-section, .snapshot-section {
-          border-top: 1px solid ${theme.itemBorderColor || '#f1f5f9'};
-          padding-top: 0.6rem;
-        }
-
-        .skills-inline-list {
+        /* Blue Theme Header Banner matching Website Palette */
+        .kr-header-banner {
+          background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+          padding: 0.65rem 1.3rem;
+          text-align: center;
           display: flex;
-          flex-wrap: wrap;
-          gap: 0.4rem;
-          line-height: 1.6;
+          align-items: center;
+          justify-content: space-between;
+          border-radius: 4px;
         }
 
-        .skill-pill-resume {
-          font-weight: 600;
-          color: ${theme.secondaryTextColor || '#334155'};
-        }
-
-        .experience-item-full {
-          margin-bottom: 0.4rem;
-        }
-
-        .experience-item-full .item-title {
-          font-size: 11.5pt;
-        }
-
-        .section-title-resume {
+        .kr-header-banner h1 {
           font-family: 'Space Grotesk', sans-serif;
-          font-size: ${layout.sectionTitleFontSize || '10pt'};
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          color: ${theme.primaryTextColor || '#0f172a'};
-          border-bottom: 1px solid ${theme.itemBorderColor || '#e2e8f0'};
-          padding-bottom: 0.15rem;
-          margin-bottom: 0.4rem;
+          font-size: 21pt;
+          font-weight: 700;
+          color: #38bdf8;
+          margin: 0;
+          letter-spacing: 0.04em;
+        }
+
+        .kr-header-decor-left, .kr-header-decor-right {
+          width: 18px;
+          height: 26px;
+          border-left: 2px solid #38bdf8;
+          border-right: 2px solid #38bdf8;
+        }
+
+        .kr-contact-bar {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 0.7rem;
+          padding: 0.3rem 0;
+          font-size: 8pt;
+          font-weight: 600;
+          color: #334155;
+          border-bottom: 1px solid #bae6fd;
+          margin-bottom: 0.55rem;
+        }
+
+        .kr-bar-sep {
+          color: #38bdf8;
           font-weight: 700;
         }
 
-        .summary-text {
-          color: ${theme.secondaryTextColor || '#334155'};
-          text-align: justify;
-          margin-bottom: 0.6rem;
-        }
-
-        .resume-grid {
+        .kr-grid {
           display: grid;
-          grid-template-columns: ${layout.columnRatio || '1.6fr 1fr'};
-          gap: 1.5rem;
+          grid-template-columns: 1.05fr 1fr;
+          gap: 0.95rem;
         }
 
-        .experience-item, .project-item, .education-item, .award-item-resume, .skill-item-resume {
-          margin-bottom: 0.8rem;
+        .kr-section {
+          margin-bottom: 0.55rem;
           page-break-inside: avoid;
           break-inside: avoid;
         }
 
-        /* Force Headers and Titles to stay with their content */
-        .section-title-resume, .item-title, .item-header {
-          page-break-after: avoid;
-          break-after: avoid;
+        .kr-section-title {
+          font-size: 9.8pt;
+          font-weight: 700;
+          color: #0f172a;
+          display: flex;
+          align-items: center;
+          gap: 0.35rem;
+          margin: 0 0 0.3rem 0;
+          padding-bottom: 0.12rem;
+          border-bottom: 1.5px solid #38bdf8;
+          font-family: 'Space Grotesk', sans-serif;
+          text-transform: uppercase;
+          letter-spacing: 0.03em;
         }
 
-        .force-page-break {
-          page-break-before: always;
-          break-before: page;
+        .kr-title-icon {
+          color: #0284c7;
         }
 
-        /* Experience & Projects Items Special Styles */
-        .item-header {
+        .kr-text {
+          font-size: 7.8pt;
+          line-height: 1.28;
+          color: #334155;
+          margin: 0;
+        }
+
+        .kr-item {
+          margin-bottom: 0.4rem;
+          page-break-inside: avoid;
+          break-inside: avoid;
+        }
+
+        .kr-item-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: baseline;
+        }
+
+        .kr-item-date {
+          font-size: 7.3pt;
+          color: #0369a1;
+          font-weight: 600;
+          margin-bottom: 0.05rem;
+        }
+
+        .kr-item-date-inline {
+          font-size: 7.3pt;
+          color: #0369a1;
+          font-weight: 600;
+        }
+
+        .kr-item-title {
+          font-size: 8.6pt;
+          font-weight: 700;
+          color: #0f172a;
+          margin: 0;
+          line-height: 1.2;
+        }
+
+        .kr-item-sub {
+          font-size: 7.8pt;
+          font-weight: 600;
+          color: #0284c7;
+          margin-bottom: 0.1rem;
+        }
+
+        .kr-item-desc {
+          font-size: 7.5pt;
+          color: #475569;
+          margin: 0.1rem 0;
+          line-height: 1.24;
+        }
+
+        .kr-bullet-list {
+          margin: 0.15rem 0 0 0;
+          padding-left: 0.85rem;
+          font-size: 7.5pt;
+          color: #334155;
+        }
+
+        .kr-bullet-list li {
+          margin-bottom: 0.1rem;
+          line-height: 1.24;
+        }
+
+        .kr-tech-pills {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.2rem;
+          margin-top: 0.15rem;
+        }
+
+        .kr-tech-pill {
+          font-size: 6.8pt;
+          background: #f0f9ff;
+          color: #0369a1;
+          padding: 0.05rem 0.28rem;
+          border-radius: 2px;
+          border: 1px solid #bae6fd;
+          font-weight: 500;
+        }
+
+        .kr-award-item-compact {
           display: flex;
           justify-content: space-between;
           align-items: baseline;
           margin-bottom: 0.2rem;
         }
 
-        .item-title {
-          font-size: 10.5pt;
+        /* Blue Kickresume Skills Progress Bars */
+        .kr-skill-cat-title {
+          font-size: 7pt;
           font-weight: 700;
-          color: ${theme.primaryTextColor || '#0f172a'};
+          color: #0369a1;
+          letter-spacing: 0.05em;
+          margin-bottom: 0.18rem;
         }
 
-        .item-date {
-          font-size: 9pt;
-          color: ${theme.lightTextColor || '#64748b'};
-          font-weight: 500;
-        }
-
-        .item-sub {
-          font-size: 9.5pt;
-          font-weight: 600;
-          color: ${theme.accentColor || '#38bdf8'};
-          margin-bottom: 0.4rem;
-        }
-
-        .item-list {
-          margin: 0;
-          padding-left: 1.2rem;
-          color: ${theme.secondaryTextColor || '#475569'};
-        }
-
-        .item-list li {
-          margin-bottom: 0.1rem;
-        }
-
-        .project-desc-mini {
-          font-size: 8.5pt;
-          color: ${theme.secondaryTextColor || '#475569'};
-          margin-bottom: 0.3rem;
-          line-height: 1.25;
-        }
-
-        .tech-tags {
+        .kr-skills-list {
           display: flex;
-          flex-wrap: wrap;
-          gap: 0.4rem;
+          flex-direction: column;
+          gap: 0.22rem;
         }
 
-        .tech-tag {
+        .kr-skill-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .kr-skill-name {
           font-size: 7.5pt;
-          background: ${theme.backgroundColor === '#ffffff' ? '#f1f5f9' : 'rgba(0,0,0,0.05)'};
-          color: ${theme.secondaryTextColor || '#475569'};
-          padding: 0.1rem 0.35rem;
-          border-radius: 3px;
-          border: 1px solid ${theme.itemBorderColor || '#e2e8f0'};
-        }
-
-        /* Side Column Items */
-        .skills-grid-resume {
-          display: flex;
-          flex-direction: column;
-          gap: 0.75rem;
-        }
-
-        .skill-item-resume {
-          display: flex;
-          flex-direction: column;
-          gap: 0.25rem;
-        }
-
-        .skill-name-resume {
-          font-size: 9pt;
           font-weight: 600;
-          color: ${theme.secondaryTextColor || '#475569'};
+          color: #0f172a;
         }
 
-        .skill-bar-resume {
-          height: 4pt;
-          background: ${theme.itemBorderColor || '#f1f5f9'};
-          border-radius: 2pt;
+        .kr-skill-bar-bg {
+          width: 80px;
+          height: 6px;
+          background-color: #e0f2fe;
+          border-radius: 2px;
           overflow: hidden;
         }
 
-        .skill-progress-resume {
+        .kr-skill-bar-fill {
           height: 100%;
-          background: ${theme.accentColor || '#38bdf8'};
+          background-color: #0284c7;
+          border-radius: 2px;
         }
 
-        .education-item-ultra-compact {
-          margin-bottom: 0.15rem;
-          font-size: 8pt;
-        }
-
-        .item-title-small {
-          font-size: 8.5pt;
-          font-weight: 700;
-          color: ${theme.primaryTextColor || '#0f172a'};
-          margin: 0;
-        }
-
-        .item-sub-small {
-          font-size: 7.5pt;
-          color: ${theme.accentColor || '#38bdf8'};
-          font-weight: 600;
-        }
-
-        .item-date-small {
-          font-size: 7.5pt;
-          color: ${theme.lightTextColor || '#94a3b8'};
-        }
-
-        .item-gpa-small {
-          font-size: 8pt;
-          font-weight: 600;
-          color: ${theme.secondaryTextColor || '#475569'};
-        }
-
-        .award-item-resume {
-          margin-bottom: 0.1rem;
+        /* Vibrant Blue Strengths Badges */
+        .kr-strengths-grid {
           display: flex;
-          justify-content: space-between;
-          align-items: baseline;
-          gap: 0.5rem;
+          flex-wrap: wrap;
+          gap: 0.25rem;
         }
 
-        .resume-footer {
-          margin-top: 1.5rem;
-          border-top: 1px solid ${theme.itemBorderColor || '#f1f5f9'};
-          padding-top: 0.5rem;
-          text-align: center;
-          font-size: 8pt;
-          color: ${theme.lightTextColor || '#94a3b8'};
+        .kr-strength-badge {
+          background-color: #0284c7;
+          color: #ffffff;
+          padding: 0.14rem 0.45rem;
+          font-size: 7.2pt;
+          font-weight: 600;
+          border-radius: 3px;
+          display: inline-block;
         }
 
-        /* Print Specifics */
+        /* Single-Page US Letter Print Setup */
         @media print {
           @page {
+            size: letter portrait;
             margin: 0;
-            size: ${layout.paperSize === 'A4' ? 'A4' : 'letter'};
           }
           
-          body {
-            background: white !important;
+          html, body {
+            width: 8.5in !important;
+            height: 11in !important;
+            max-height: 11in !important;
             margin: 0 !important;
             padding: 0 !important;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
+            background: white !important;
+            overflow: hidden !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
           }
           
           .no-print {
@@ -541,91 +538,77 @@ const Resume = () => {
           .resume-container {
             padding: 0 !important;
             margin: 0 !important;
+            min-height: 0 !important;
           }
 
           .resume-paper {
-            width: 100% !important;
-            min-height: 0 !important; /* Allow it to shrink/grow naturally across pages */
+            width: 8.5in !important;
+            height: 11in !important;
+            max-height: 11in !important;
             box-shadow: none !important;
-            padding: ${layout.margins || '20mm'} !important;
+            padding: 0.3in 0.35in !important;
             margin: 0 !important;
-            background: ${theme.backgroundColor || '#ffffff'} !important;
-            color: ${theme.primaryTextColor || '#0f172a'} !important;
-            display: block !important; /* Block is safest for pagination */
+            background: #ffffff !important;
+            color: #0f172a !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
+            page-break-after: avoid !important;
+            break-after: avoid !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
           }
 
-          .skills-horizontal-grid {
-             grid-template-columns: repeat(4, 1fr) !important;
+          .kr-header-banner {
+            background: #0f172a !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
           }
 
-          .resume-grid {
-            display: flex !important; /* Flex is better than Grid for some print engines */
+          .kr-header-banner h1 {
+            color: #38bdf8 !important;
+          }
+
+          .kr-skill-bar-fill {
+            background-color: #0284c7 !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
+
+          .kr-skill-bar-bg {
+            background-color: #e0f2fe !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
+
+          .kr-strength-badge {
+            background-color: #0284c7 !important;
+            color: #ffffff !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
+
+          .kr-grid {
+            display: flex !important;
             flex-direction: row;
-            gap: 2.5rem;
+            gap: 0.95rem;
           }
           
-          .resume-main-col {
-            flex: 1.5;
-          }
-          
-          .resume-side-col {
+          .kr-col {
             flex: 1;
-          }
-          
-          /* Prevent widow/orphan lines */
-          p, li {
-            widows: 3;
-            orphans: 3;
-          }
-
-          /* Force colors in print */
-          .resume-header {
-            border-bottom-color: ${theme.accentColor || '#38bdf8'} !important;
-            -webkit-print-color-adjust: exact;
-          }
-          .resume-subtitle, .item-sub, .item-sub-small, .skill-progress-resume {
-            color: ${theme.accentColor || '#38bdf8'} !important;
-            -webkit-print-color-adjust: exact;
-          }
-          .skill-progress-resume {
-            background-color: ${theme.accentColor || '#38bdf8'} !important;
-          }
-          
-          h1, h2, h3, h4, .item-title, .item-title-small {
-            color: ${theme.primaryTextColor || '#0f172a'} !important;
-          }
-          
-          .summary-text, .item-list, .project-desc-mini, .skill-name-resume {
-            color: ${theme.secondaryTextColor || '#475569'} !important;
-          }
-          
-          .resume-footer {
-            display: none !important;
           }
         }
 
-        /* Mobile Adjustments for preview */
+        /* Mobile Adjustments for screen view */
         @media (max-width: 850px) {
           .resume-paper {
             width: 95vw;
             height: auto;
-            padding: 1.5rem;
+            max-height: none;
+            padding: 1rem;
+            overflow: visible;
           }
-          .resume-grid {
+          .kr-grid {
             grid-template-columns: 1fr;
-          }
-          .skills-horizontal-grid {
-            grid-template-columns: 1fr 1fr;
-          }
-          .resume-header {
-            flex-direction: column;
-            gap: 1rem;
-          }
-          .header-contact {
-            text-align: left;
-          }
-          .contact-item {
-            justify-content: flex-start;
           }
         }
       `}</style>

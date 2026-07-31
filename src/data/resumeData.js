@@ -26,10 +26,10 @@ import imgCerritosHigh from '../img/cerritos_high.jpg';
 export const resumeData = {
     personalInfo: {
         name: "Krish's Domain",
-        title: "Full Stack Developer",
+        title: "Software Engineer & Graphic Designer",
         email: "krishsathyan@gmail.com",
         location: "Los Angeles, CA",
-        summary: "Highly motivated and results-oriented software developer with deep expertise in Python-based automation and high-performance systems programming using C++. Proven ability to design, develop, and optimize efficient, scalable, and maintainable solutions that improve performance and streamline complex workflows. Strong analytical problem-solver with a passion for low-level systems, performance optimization, and leveraging automation to enhance reliability, productivity, and overall system efficiency.",
+        summary: "Results-oriented Software Engineer and Graphic Design Intern with proven expertise in Python automation, C++ high-performance systems, machine learning models, and digital media design. Demonstrated success producing visual branding and graphic assets for LA Metro, engineering complex physics simulations, developing AI models at UCI, and competing in national cybersecurity competitions.",
         socials: {
             github: "github.com/Arkrainian",
         },
@@ -44,21 +44,35 @@ export const resumeData = {
         backgroundSpeed: 0.5, // 1.0 is default, lower is slower (e.g., 0.5 is half speed)
         backgroundElements: {
             words: ["കൃഷ്", "कृष", "クリシュ", "克里什", "كريش", "KRISH", "कृष्ण", "криш"],
-            chars: ["0", "1", "<", ">", "/", "{", "}", "[", "]", "*", "&", "^", "%", "$", "#", "@", "!", "~", "ァ", "ィ", "イ", "ゥ", "ウ", "ガ", "カ", "കൃഷ്", "कृष्ण"]
+            chars: ["0", "1", "<", ">", "/", "{", "}", "[", "]", "*", "&", "^", "%", "$", "#", "@", "!", "~", "ァ", "ィ", "イ", "ゥ", "ウ", "ガ", "卡", "കൃഷ്", "कृष्ण"]
         }
     },
     experience: [
-
+        {
+            id: 4,
+            role: "Graphic Design Intern (Paid)",
+            company: "LA Metro",
+            period: "2026",
+            description: [
+                "Completed a paid Graphic Design Internship at LA Metro (Los Angeles County Metropolitan Transportation Authority), creating high-impact visual content, digital assets, and infographics for group projects.",
+                "Collaborated closely with agency project leads and multidisciplinary teams to produce promotional materials, data graphics, and presentation decks adhering strictly to LA Metro brand identity guidelines.",
+                "Utilized modern UI/UX design principles and Adobe Creative Suite to translate complex public transportation data into clear, accessible visual communications.",
+                "Maintained design consistency across digital and print channels to enhance public engagement, stakeholder communication, and team project deliverables."
+            ],
+            details: {
+                text: "During my paid internship at LA Metro (Los Angeles County Metropolitan Transportation Authority), I worked as a graphic designer within a collaborative project group. My primary focus was designing custom visual assets, infographics, and promotional materials for various group initiatives. This role deepened my experience in visual communication, team collaboration, branding compliance, and applying user-centric design principles in a fast-paced environment."
+            }
+        },
         {
             id: 1,
             role: "Freelance Game Developer",
             company: "Freelance",
             period: "2023 - Present",
             description: [
-                "Developed custom Roblox Studio creations for clients, implementing advanced physics-based movement systems and interactive gameplay mechanics using Luau scripting.",
-                "Engineered procedural animation systems that dynamically adjust character rigs based on velocity and terrain angles, creating premium, high-fidelity gameplay experiences.",
-                "Designed and implemented custom kinematic solvers to override standard movement behaviors, simulating realistic inertia, friction, and momentum-based sliding.",
-                "Collaborated with clients to translate creative visions into functional, polished game mechanics that prioritize mechanical depth and player immersion."
+                "Engineered custom real-time physics models, vector thrust aerodynamics, and interactive gameplay systems in Luau for client Roblox Studio titles.",
+                "Developed dynamic kinematic solvers and surface-normal friction algorithms to simulate realistic momentum, drag, and sliding mechanics beyond engine defaults.",
+                "Built procedural animation frameworks that dynamically adjust character and vehicle rigs according to velocity vectors and surface angles.",
+                "Collaborated directly with clients to translate creative vision into modular, scalable, and performance-optimized codebases."
             ],
 
         },
@@ -68,10 +82,9 @@ export const resumeData = {
             company: "Freelance",
             period: "2024",
             description: [
-                "Collaborated with a peer to develop an intelligent Minecraft PvP bot using Java and artificial intelligence techniques.",
-                "Implemented pathfinding algorithms and combat decision-making systems to create autonomous player behavior in competitive scenarios.",
-                "Integrated machine learning concepts to optimize bot performance, including pattern recognition for opponent movement prediction.",
-                "Designed modular architecture to allow for easy expansion and customization of bot capabilities and strategies."
+                "Architected an autonomous decision-making bot in Java utilizing A* pathfinding and tactical algorithms for competitive Minecraft environments.",
+                "Implemented predictive movement models and heuristic pattern recognition to forecast opponent behavior and dynamically adjust counter-strategies.",
+                "Designed a modular, decoupled software architecture enabling seamless feature expansion, automated testing, and strategy tuning."
             ]
         },
         {
@@ -80,17 +93,25 @@ export const resumeData = {
             company: "Cerritos Elementary",
             period: "2025",
             description: [
-                "Collaborated with classmates to facilitate hands-on science experiments for elementary school students during a 2-hour volunteer session.",
-                "Provided clear, engaging explanations of fundamental scientific principles, including how magnets work and the properties of magnetic fields.",
-                "Guided students through interactive demonstrations, fostering curiosity and encouraging critical thinking about physical science concepts.",
-                "Ensured a safe and organized learning environment while managing small groups of students during experimental activities."
+                "Facilitated hands-on physics and magnetism demonstrations for elementary students, translating scientific fundamentals into engaging interactive learning.",
+                "Guided students through interactive experiments while managing small groups to foster curiosity in STEM fields."
             ],
             details: {
-                text: "During this volunteer session at Cerritos Elementary, I worked alongside my classmates to bring science to life for younger students. My role involved explaining complex concepts like magnetism in simple, relatable terms and helping kids conduct their own experiments. It was a rewarding 2-hour experience focused on STEM outreach and community engagement, using interactive demonstrations to spark interest in the physical sciences.",
+                text: "During this volunteer session at Cerritos Elementary, I worked alongside my classmates to bring science to life for younger students. My role involved explaining complex concepts like magnetism in simple, relatable terms and helping kids conduct their own experiments. It was a rewarding experience focused on STEM outreach and community engagement."
             }
         }
     ],
     education: [
+        {
+            id: 3,
+            degree: "Currently Enrolled",
+            school: "Cerritos High School",
+            year: "2026",
+            status: "enrolled",
+            description: "High school coursework emphasizing Computer Science, Mathematics, and Physics.",
+            url: "https://www.cerritoshs.us/",
+            image: imgCerritosHigh
+        },
         {
             id: 1,
             degree: "Certification in Machine Learning",
@@ -98,7 +119,7 @@ export const resumeData = {
             year: "2025",
             status: "completed",
             url: "https://uci.edu/",
-            description: "I attended the UC Irvine ICS Summer Academy, where I earned a certificate in Machine Learning by developing and training models in Python using Google Colab, with an emphasis on data preprocessing, model evaluation, and applied experimentation.",
+            description: "Attended the UC Irvine ICS Summer Academy, earning a certificate in Machine Learning by developing dual-stream neural nets and predictive models in Python using Google Colab.",
             image: imgUCIHall
         },
         {
@@ -108,17 +129,8 @@ export const resumeData = {
             year: "2025",
             status: "completed",
             url: "https://uci.edu/",
-            description: "I earned a certificate in Data Science through hands-on analysis and statistical modeling in R, applying data wrangling, visualization, and inference techniques to real-world datasets.",
+            description: "Earned a certificate in Data Science through hands-on statistical modeling, data wrangling, visualization, and inference in R.",
             image: imgUCIHall
-        },
-        {
-            id: 3,
-            degree: "",
-            school: "Cerritos High School",
-            year: "2025",
-            status: "enrolled",
-            url: "https://www.cerritoshs.us/",
-            image: imgCerritosHigh
         },
         {
             id: 4,
@@ -126,7 +138,7 @@ export const resumeData = {
             school: "Harvard University (Self-Study)",
             year: "2023",
             status: "completed",
-            description: "I independently self-studied Python and C through Harvard’s CS50 on YouTube, developing a strong understanding of variables, data types, strings, arrays, lists, pointers, memory allocation, control flow, and low-level program execution, and applying these concepts to solve algorithmic problems and build efficient, well-structured programs.",
+            description: "Independently self-studied Python and C through Harvard’s CS50, mastering data structures, memory allocation, pointers, algorithms, and low-level program execution.",
             url: "https://cs50.harvard.edu/",
             image: "https://www.classcentral.com/report/wp-content/uploads/2022/05/cs50-2023-banner-e1673610020393.png"
         },
@@ -137,11 +149,23 @@ export const resumeData = {
             year: "2023",
             status: "completed",
             url: "https://www.idtech.com/",
-            description: "Participated in an intensive Machine Learning program exploring GPU-accelerated computing using the NVIDIA software stack. Developed a suite of ML applications covering image recognition, sentiment analysis, and reinforced learning systems.",
+            description: "Participated in an intensive Machine Learning program exploring GPU-accelerated computing and neural network optimization using the NVIDIA software stack.",
             image: imgIDTechLogo
         }
     ],
     skills: [
+        {
+            name: "Generative AI",
+            level: 80,
+            status: "learned",
+            description: "Leveraging Generative AI models, prompt engineering, LLM integration, and RAG architectures for intelligent application development."
+        },
+        {
+            name: "Graphic Design & UI/UX",
+            level: 95,
+            status: "learned",
+            description: "Designing visual branding, promotional graphics, digital assets, and infographics adhering strictly to brand identity standards, as demonstrated during my paid internship at LA Metro."
+        },
         {
             name: "Python",
             level: 100,
@@ -658,15 +682,15 @@ export const resumeData = {
             showSummary: true,
             showExperience: true,
             showEducation: true,
-            selectedEducationIds: [1, 2, 5, 4, 3], // UCI (1), UCI Cert (2), Cerritos (3)
+            selectedEducationIds: [3, 1, 2, 5, 4], // Cerritos (3), UCI ML (1), UCI Data Science (2)
             showSkills: true,
             showAwards: true,
             selectedAwardIds: [7, 10, 9, 5, 4], // Added CyberPatriot XVIII (5) and XVII (4)
             awardLimit: 5,
             showProjects: true,
-            selectedProjectIds: [2, 13, 8],
+            selectedProjectIds: [2, 13, 3],
             projectLimit: 3,
-            experienceLimit: 2,
+            experienceLimit: 3,
             // Manual page break controls (set to true to start section on a new page)
             pageBreakBefore: {
                 experience: false,
@@ -677,12 +701,26 @@ export const resumeData = {
             },
             showHighlights: true,
             summaryHighlights: [
-                "NVIDIA Generation AI Professional Certification & advanced RAG implementation.",
+                "LA Metro Paid Graphic Design Intern (2026): Produced digital media, infographics, and visual branding.",
                 "UCI Machine Learning Academy Award: Glioma Detection Dual-Stream Neural Network.",
                 "UCI Data Science Academy Winner: Stellar Classification Astrophysical Predictive Model.",
-                "Be Strong Student State Representative (2024-Present) advocating for youth resilience and mental health.",
-                "Architect of comprehensive physics-driven SU-57 jet simulations using Luau and C++.",
-                "Expert in Python-based automation and low-level C++ systems optimization."
+                "Congressional App Challenge Submission: C++ N-Body Celestial Mechanics Simulation Engine.",
+                "NVIDIA Deep Learning Institute Certification in GPU Accelerated Computing.",
+                "CyberPatriot National Cyber Defense Competitor (Gold Team) & Be Strong Student Representative."
+            ],
+            strengths: [
+                "Analytical",
+                "Innovative",
+                "Problem Solver",
+                "Detail-Oriented",
+                "Collaborative",
+                "Adaptable",
+                "Systems Thinker",
+                "Resourceful",
+                "Fast Learner",
+                "Creative",
+                "Methodical",
+                "Self-Motivated"
             ]
         }
     }
